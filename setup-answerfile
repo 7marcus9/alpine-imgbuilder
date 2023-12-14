@@ -1,0 +1,23 @@
+KEYMAPOPTS=none
+HOSTNAMEOPTS=alpine
+DEVDOPTS=mdev
+# Contents of /etc/network/interfaces
+INTERFACESOPTS="auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+"
+
+TIMEZONEOPTS="UTC"
+PROXYOPTS=none
+APKREPOSOPTS="-1"
+USEROPTS=none
+SSHDOPTS=openssh
+NTPOPTS=chrony
+ERASE_DISKS=/dev/vdb
+DISKOPTS="-m sys /dev/vdb"
+LBUOPTS=none
+APKCACHEOPTS=none
+
+# setup-alpine -e -f a
