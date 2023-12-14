@@ -8,9 +8,13 @@ chroot /mnt << EOF
 apk add jq e2fsprogs-extra sfdisk partx
 apk add htop tmux
 ln -s /etc/init.d/mini-ci-opc /etc/runlevels/default/mini-ci-opc
+ln -s /etc/init.d/mini-ci-partresize /etc/runlevels/default/mini-ci-partresize
 EOF
 
 cp /source/mini-ci-opc /mnt/etc/init.d/mini-ci-opc
 chmod +x /mnt/etc/init.d/mini-ci-opc
+
+cp /source/mini-ci-partresize /mnt/etc/init.d/mini-ci-partresize
+chmod +x /mnt/etc/init.d/mini-ci-partresize
 
 poweroff
