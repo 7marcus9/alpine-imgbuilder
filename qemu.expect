@@ -8,5 +8,5 @@ expect "login: "
 send "root\n"
 
 expect "# "
-send "mkdir /source; mount /dev/vdc1 /source;sh /source/setup-script\n"
+send "mkdir /source; mount /dev/vdc1 /source;sh -x /source/setup-script\n"
 expect eof
