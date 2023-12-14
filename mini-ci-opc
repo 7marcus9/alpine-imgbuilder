@@ -1,0 +1,42 @@
+#!/sbin/openrc-run
+
+depend() {
+    need net
+}
+
+start() {
+    ebegin "Retrieving OPC Instance config"
+    wget -q --header "Authorization: Bearer Oracle" http://169.254.169.254/opc/v2/instance/ -O /tmp/cloudinit
+    retVal=$?
+    eend $retVal
+
+    if [ $retVal -ne 0 ]
+    then
+        exit $retVal
+    fi
+
+    ebegin "OPC Get hostname"
+    h=$(cat /tmp/cloudinit | jq -r -e '.hostname')
+    retVal=$?
+    eend $retVal
+
+    if [ $retVal -eq 0 ]
+    then
+        ebegin "Setting hostname from Config"
+        echo $h > /etc/hostname
+        hostname $h
+        eend $?
+    fi
+
+    ebegin "OPC Get authorized_keys"    
+    k=$(cat /tmp/cloudinit | jq -r -e '.metadata.ssh_authorized_keys')
+    retVal=$?
+    if [ $retVal -eq 0 ]
+    then
+        mkdir -p /root/.ssh
+        echo "${k}" >> /root/.ssh/authorized_keys
+    fi
+    eend $retVal
+
+    rm -f /etc/runlevels/default/mini-ci-opc
+}
