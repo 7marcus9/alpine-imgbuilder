@@ -1,0 +1,16 @@
+
+setup-alpine -e -f /source/setup-answerfile
+
+mount /dev/vdb3 /mnt
+rm /mnt/etc/ssh/ssh_host_*
+
+chroot / << EOF
+apk add jq e2fsprogs-extra sfdisk partx
+apk add htop tmux
+ln -s /etc/init.d/mini-ci-opc /etc/runlevels/default/mini-ci-opc
+EOF
+
+cp /source/mini-ci-opc /mnt/etc/init.d/mini-ci-opc
+chmod +x /mnt/etc/init.d/mini-ci-opc
+
+poweroff
