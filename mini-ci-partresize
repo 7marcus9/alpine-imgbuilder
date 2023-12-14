@@ -1,0 +1,16 @@
+#!/sbin/openrc-run
+
+start() {
+  ebegin "Resizing main Partition"
+  mainpart=$(mount | grep "on / type" | sed 's/\/dev\///' | cut -f 1 -d ' ')
+  partno=$(cat /sys/class/block/$mainpart/partition)
+
+  maindisk=$(basename $(readlink -f /sys/class/block/$mainpart/..))
+
+  echo ",+" | sfdisk  -N$partno --no-reread /dev/$maindisk
+
+  partx -u /dev/$maindisk
+
+  resize2fs /dev/$mainpart
+  eend $?
+}
