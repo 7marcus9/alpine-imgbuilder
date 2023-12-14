@@ -19,6 +19,7 @@ truncate -s 2048M hd1
 mkdir files
 
 cp setup-* files/
+cp mini-ci-* files/
 
 #qemu-system-aarch64 -M virt -m 1024M -nographic -drive if=pflash,format=raw,file=QEMU_EFI.img -drive if=virtio,format=raw,file=alpine-virt-3.19.0-aarch64.iso -drive if=virtio,format=raw,file=hd1 -cpu cortex-a57 -drive if=virtio,file=fat:rw:files
 expect qemu.expect
