@@ -1,6 +1,6 @@
 #!/bin/sh
 
-apk add qemu-system-aarch64 expect
+apk add qemu-img qemu-system-aarch64 expect
 
 if [ ! -f alpine-virt-3.19.0-aarch64.iso ]
 then
@@ -23,3 +23,5 @@ cp mini-ci-* files/
 
 #qemu-system-aarch64 -M virt -m 1024M -nographic -drive if=pflash,format=raw,file=QEMU_EFI.img -drive if=virtio,format=raw,file=alpine-virt-3.19.0-aarch64.iso -drive if=virtio,format=raw,file=hd1 -cpu cortex-a57 -drive if=virtio,file=fat:rw:files
 expect qemu.expect
+
+qemu-img convert -c -f raw -O qcow2 hd1 hd1.qcow2
